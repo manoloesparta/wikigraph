@@ -1,6 +1,8 @@
 import re
-import requests
 import os
+import random
+import requests
+import concurrent.futures
 from bs4 import BeautifulSoup
 
 WIKIPEDIA = 'https://en.wikipedia.org/'
@@ -17,27 +19,44 @@ def visit(article):
         source = requests.get(url)
         soup = BeautifulSoup(source.content, 'lxml')
         
-        links = soup.find_all('a', attrs={ 'href': re.compile('^/wiki/[a-zA-Z0-9]+$') })
+        links = soup.find_all('a', attrs={ 'href': re.compile('^/wiki/[a-zA-Z0-9_()-.!\']+$') })
         res = [ link.get('href').split('/')[-1] for link in links ]
         final = list(dict.fromkeys(res))
-        
+
         with open(DATADIR + article, 'w+') as file:
             file.write(',\n'.join(final))
 
         return final
     
-    print(f'{article} downloaded')        
+    print(f'{article} downloaded')
 
     with open(DATADIR + article, 'r') as file:
         content = file.read()
         return content.split(',\n')
 
+def traverse(start):
+    visited = []
+    queue = []
+    
+    queue.append(start)
+    visited.append(start)
+
+    while len(queue) > 0:
+        v = queue.pop(0)
+        adj = visit(v)
+        
+        for i in adj:
+            if not i in visited:
+                queue.append(i)
+                visited.append(i)
+
 if __name__ == "__main__":
 
     if not os.path.exists(DATADIR):
         os.mkdir(DATADIR)
-        
-    res = visit('Mexico')
-    for i in res:
-        for j in visit(i):
-            visit(j)
+        visit('Mexico')
+
+    with open('start.csv', 'r') as file:
+        starting_points = file.read().split(',')
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            [executor.submit(traverse, s) for s in starting_points]
