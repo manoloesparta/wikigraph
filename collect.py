@@ -7,7 +7,6 @@ import concurrent.futures
 WIKIPEDIA = 'https://en.wikipedia.org/'
 PREFIX = '/wiki/'
 DATADIR = 'data/'
-cache = {}
 
 
 def cleanstr(string):
@@ -32,25 +31,14 @@ def visit(article):
 
         cache[article] = final
         return final
-    
-    try:
-        res = cache[article]
-        print(f'{article} in cache')
-        return res
 
-    except KeyError:
-        print(f'{article} stored')
-
-        with open(DATADIR + article, 'r') as file:
-            content = file.read()
-            final = content.split(',\n')
-
-            cache[article] = final
-            return final
+    with open(DATADIR + article, 'r') as file:
+        content = file.read()
+        return content.split(',\n')
 
 
 def traverse(start):
-    visited = []
+    visited = os.listdir(DATADIR)
     queue = []
     queue.append(start)
     visited.append(start)
@@ -70,6 +58,6 @@ if __name__ == "__main__":
         visit('Mexico')
 
     with open('start.csv', 'r') as file:
-        starting_points = file.read().split(',')[0:2]
+        starting_points = file.read().split(',')
         with concurrent.futures.ProcessPoolExecutor() as executor:
             [executor.submit(traverse, start) for start in starting_points]
