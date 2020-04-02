@@ -1,13 +1,14 @@
 #pragma once
 
-const std::string DATADIR{ "data/" };
+#include <string>
 
-class Node 
-{   
+struct Node 
+{
 private:
+    std::string datadir;
 
 public:
-    Node();
+    Node(std::string datadir);
     void neighbors();
     void chooseRandom();
 };

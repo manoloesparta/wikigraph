@@ -14,7 +14,6 @@ def cleanstr(string):
 
 
 def visit(article):
-    global cache
     url = WIKIPEDIA + PREFIX + article
 
     if not os.path.exists(DATADIR + article):
@@ -29,7 +28,6 @@ def visit(article):
         with open(DATADIR + article, 'w+') as file:
             file.write(',\n'.join(final))
 
-        cache[article] = final
         return final
 
     with open(DATADIR + article, 'r') as file:
@@ -56,8 +54,8 @@ if __name__ == "__main__":
     if not os.path.exists(DATADIR):
         os.mkdir(DATADIR)
         visit('Mexico')
-
+ 
     with open('start.csv', 'r') as file:
         starting_points = file.read().split(',')
         with concurrent.futures.ProcessPoolExecutor() as executor:
-            [executor.submit(traverse, start) for start in starting_points]
+            [ executor.submit(traverse, start) for start in starting_points ]
