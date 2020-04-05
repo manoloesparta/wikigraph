@@ -1,14 +1,16 @@
 #pragma once
 
+#include <vector>
 #include <string>
+
+const std::string directory{ "test" };
 
 struct Node 
 {
-private:
-    std::string datadir;
+    std::string start;
+    std::vector<std::string> neighbors(std::string);
 
 public:
-    Node(std::string datadir);
-    void neighbors();
-    void chooseRandom();
+    Node(std::string start);
+    std::vector<std::string> run();
 };
