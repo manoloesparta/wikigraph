@@ -4,7 +4,8 @@
 int main()
 {
     Node n{ "a" };
-    n.run("b");
-    std::cout << n.start << std::endl;
+    auto route = n.run("d");
+    for(auto a : route)
+        std::cout << a << " ";
     return 0;
 }

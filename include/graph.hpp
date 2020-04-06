@@ -5,10 +5,12 @@
 
 const std::string directory{ "test" };
 
-struct Node 
+class Node 
 {
+private:
     std::string start;
-    std::vector<std::string> neighbors(std::string);
+    std::vector<std::string> neighbors(std::string vertex);
+    std::vector<std::string> split(std::string input, std::string substr);
 
 public:
     Node(std::string start);
