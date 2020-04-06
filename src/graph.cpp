@@ -1,7 +1,7 @@
-#include "graph.hpp"
+#include <map>
 #include <string>
 #include <stack>
-#include <map>
+#include "graph.hpp"
 
 Node::Node(std::string start) : start{ start }
 {}
@@ -11,13 +11,13 @@ std::vector<std::string> Node::neighbors(std::string vertex)
     return std::vector<std::string>{};
 }
 
-std::vector<std::string> Node::run()
+std::vector<std::string> Node::run(std::string goal)
 {
     std::map<std::string, int> history{};
     std::stack<std::string> stack{};
     stack.push(start);
 
-    while (history.size() > 0)
+    while (stack.size() > 0)
     {
         std::string vertex{ stack.top() };
         stack.pop();

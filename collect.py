@@ -1,6 +1,5 @@
 import re
 import os
-import random
 import requests
 import concurrent.futures
 
@@ -8,14 +7,11 @@ WIKIPEDIA = 'https://en.wikipedia.org/'
 PREFIX = '/wiki/'
 DATADIR = 'data/'
 
-
 def cleanstr(string):
     return (string.split('/')[-1])[:-1]
 
-
 def visit(article):
     url = WIKIPEDIA + PREFIX + article
-
     if not os.path.exists(DATADIR + article):
         print(f'Downloading {article}')
         source = str(requests.get(url).content)
@@ -34,7 +30,6 @@ def visit(article):
         content = file.read()
         return content.split(',\n')
 
-
 def traverse(start):
     visited = os.listdir(DATADIR)
     queue = []
@@ -50,7 +45,6 @@ def traverse(start):
                 visited.append(i)
 
 if __name__ == "__main__":
-
     if not os.path.exists(DATADIR):
         os.mkdir(DATADIR)
         visit('Mexico')

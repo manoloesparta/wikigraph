@@ -12,5 +12,5 @@ struct Node
 
 public:
     Node(std::string start);
-    std::vector<std::string> run();
+    std::vector<std::string> run(std::string goal);
 };
