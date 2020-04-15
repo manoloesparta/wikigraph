@@ -7,5 +7,6 @@ int main()
     auto route = n.run("d");
     for(auto a : route)
         std::cout << a << " ";
+    std::cout << std::endl;
     return 0;
 }

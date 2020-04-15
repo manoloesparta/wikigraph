@@ -41,7 +41,7 @@ std::vector<std::string> Node::run(std::string goal)
                     result.push_back(goal);
                     return result;
                 }
-                stack.push(choose(adj));
+                stack.push(edge);
             }
             result.pop_back();
         }
