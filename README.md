@@ -1,6 +1,6 @@
 <p align="center">
   <a>
-    <img width="200px" src="logo.jpg" alt="PI and me" />
+    <img width="200px" src="logo.png" alt="Wikigraph" />
     <h1 align="center">Wikigraph</h1>
   </a>
 </p>
